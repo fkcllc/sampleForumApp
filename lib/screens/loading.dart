@@ -15,7 +15,7 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void _LoadUserInfo() async {
+  void _loadUserInfo() async {
     String? token = await getToken();
     if (token == '') {
       Navigator.of(context).pushAndRemoveUntil(
@@ -47,7 +47,7 @@ class _LoadingState extends State<Loading> {
 
   @override
   void initState() {
-    _LoadUserInfo();
+    _loadUserInfo();
     super.initState();
   }
 
