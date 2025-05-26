@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response.error.toString()),
-          duration: const Duration(seconds: 2),
+          duration: const Duration(seconds: 5),
         ),
       );
     }
@@ -117,6 +117,7 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   // Process login
+                  _loginUser();
                 }
               },
               child: const Text(
