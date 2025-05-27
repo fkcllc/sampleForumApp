@@ -15,39 +15,49 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void _loadUserInfo() async {
+  void _loadUserInfo(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 1));
+
     String? token = await getToken();
     if (token == '') {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Login()),
-        (route) => false,
-      );
-    } else {
-      ApiResponse response = await getUserDetail();
-      if (response.error == null) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => Home()),
-          (route) => false,
-        );
-      } else if (response.error == unauthorized) {
+      if (context.mounted) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Login()),
           (route) => false,
         );
+      }
+    } else {
+      ApiResponse response = await getUserDetail();
+      if (response.error == null) {
+        if (context.mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Home()),
+            (route) => false,
+          );
+        }
+      } else if (response.error == unauthorized) {
+        if (context.mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Login()),
+            (route) => false,
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.error.toString()),
-            // duration: const Duration(seconds: 2),
-          ),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.error.toString()),
+              // duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       }
     }
   }
 
   @override
   void initState() {
-    _loadUserInfo();
+    _loadUserInfo(context);
     super.initState();
   }
 

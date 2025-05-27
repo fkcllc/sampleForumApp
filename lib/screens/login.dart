@@ -10,39 +10,44 @@ class Login extends StatefulWidget {
   const Login({super.key});
 
   @override
-  _LoginState createState() => _LoginState();
+  LoginState createState() => LoginState();
 }
 
-class _LoginState extends State<Login> {
+class LoginState extends State<Login> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   bool isLoading = false;
 
-  void _loginUser() async {
+  void _loginUser(BuildContext context) async {
     // if (formKey.currentState!.validate()) {
     //   setState(() {
     //     isLoading = true;
     //   });
 
     ApiResponse response = await login(txtEmail.text, txtPassword.text);
+
     if (response.error == null) {
-      _saveAndRedirectToHome(response.data as User);
+      if (context.mounted) {
+        _saveAndRedirectToHome(response.data as User, context);
+      }
       // // Navigate to home screen or perform any other action
       // Navigator.of(context).pushAndRemoveUntil(
       //   MaterialPageRoute(builder: (context) => const Home()),
       //   (route) => false,
       // );
     } else {
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(response.error.toString()),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      if (context.mounted) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response.error.toString()),
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
     }
 
     setState(() {
@@ -50,14 +55,16 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void _saveAndRedirectToHome(User user) async {
+  void _saveAndRedirectToHome(User user, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', user.token ?? '');
     await prefs.setInt('userId', user.id ?? 0);
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const Home()),
-      (route) => false,
-    );
+    if (context.mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Home()),
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -117,7 +124,7 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   // Process login
-                  _loginUser();
+                  _loginUser(context);
                 }
               },
               child: const Text(
