@@ -14,7 +14,7 @@ class PostForm extends StatefulWidget {
   final Post? post;
   final String? title;
 
-  PostForm({this.post, this.title});
+  const PostForm({super.key, this.post, this.title});
 
   @override
   _PostFormState createState() => _PostFormState();

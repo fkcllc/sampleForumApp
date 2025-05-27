@@ -10,18 +10,18 @@ import 'login.dart';
 class CommentScreen extends StatefulWidget {
   final int? postId;
 
-  CommentScreen({this.postId});
+  const CommentScreen({super.key, this.postId});
 
   @override
-  _CommentScreenState createState() => _CommentScreenState();
+  CommentScreenState createState() => CommentScreenState();
 }
 
-class _CommentScreenState extends State<CommentScreen> {
+class CommentScreenState extends State<CommentScreen> {
   List<dynamic> _commentsList = [];
   bool _loading = true;
   int userId = 0;
   int _editCommentId = 0;
-  TextEditingController _txtCommentController = TextEditingController();
+  final TextEditingController _txtCommentController = TextEditingController();
 
   // Get comments
   Future<void> _getComments() async {
@@ -212,12 +212,12 @@ class _CommentScreenState extends State<CommentScreen> {
                                           itemBuilder:
                                               (context) => [
                                                 PopupMenuItem(
-                                                  child: Text('Edit'),
                                                   value: 'edit',
+                                                  child: Text('Edit'),
                                                 ),
                                                 PopupMenuItem(
-                                                  child: Text('Delete'),
                                                   value: 'delete',
+                                                  child: Text('Delete'),
                                                 ),
                                               ],
                                           onSelected: (val) {

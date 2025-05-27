@@ -10,10 +10,10 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   int currentIndex = 0;
 
   @override
@@ -27,10 +27,13 @@ class _HomeState extends State<Home> {
             onPressed: () {
               logout().then(
                 (value) => {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Login()),
-                    (route) => false,
-                  ),
+                  if (context.mounted)
+                    {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => Login()),
+                        (route) => false,
+                      ),
+                    },
                 },
               );
             },

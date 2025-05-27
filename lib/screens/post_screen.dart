@@ -10,6 +10,8 @@ import 'login.dart';
 import 'post_form.dart';
 
 class PostScreen extends StatefulWidget {
+  const PostScreen({super.key});
+
   @override
   _PostScreenState createState() => _PostScreenState();
 }
@@ -156,12 +158,12 @@ class _PostScreenState extends State<PostScreen> {
                               itemBuilder:
                                   (context) => [
                                     PopupMenuItem(
-                                      child: Text('Edit'),
                                       value: 'edit',
+                                      child: Text('Edit'),
                                     ),
                                     PopupMenuItem(
-                                      child: Text('Delete'),
                                       value: 'delete',
+                                      child: Text('Delete'),
                                     ),
                                   ],
                               onSelected: (val) {

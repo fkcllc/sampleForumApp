@@ -28,14 +28,14 @@ InputDecoration kInputDecoration(String label) {
 // button
 TextButton kTextButton(String label, Function onPressed) {
   return TextButton(
-    child: Text(label, style: TextStyle(color: Colors.white)),
     style: ButtonStyle(
-      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue),
-      padding: MaterialStateProperty.resolveWith(
+      backgroundColor: WidgetStateColor.resolveWith((states) => Colors.blue),
+      padding: WidgetStateProperty.resolveWith(
         (states) => EdgeInsets.symmetric(vertical: 10),
       ),
     ),
     onPressed: () => onPressed(),
+    child: Text(label, style: TextStyle(color: Colors.white)),
   );
 }
 

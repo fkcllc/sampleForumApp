@@ -10,6 +10,8 @@ import '../constant.dart';
 import 'login.dart';
 
 class Profile extends StatefulWidget {
+  const Profile({super.key});
+
   @override
   _ProfileState createState() => _ProfileState();
 }
