@@ -1,5 +1,5 @@
 //文字列
-const baseURL = 'http://127.0.0.1:8000/api';
+const baseURL = 'http://10.0.2.2:8000/api';
 const loginURL = '$baseURL/login';
 const registerURL = '$baseURL/register';
 const logoutURL = '$baseURL/logout';

@@ -20,7 +20,7 @@ Future<ApiResponse> login(String email, String password) async {
         // 'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: jsonEncode({'email': email, 'password': password}),
+      body: {'email': email, 'password': password},
     );
 
     switch (response.statusCode) {
@@ -29,7 +29,7 @@ Future<ApiResponse> login(String email, String password) async {
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];
-        apiResponse.error = errors[errors.elementAt(0)][0];
+        apiResponse.error = errors[errors.keys.elementAt(0)][0];
         break;
       case 403:
         apiResponse.error = jsonDecode(response.body)['message'];
@@ -52,16 +52,13 @@ Future<ApiResponse> register(String name, String email, String password) async {
   try {
     final response = await http.post(
       Uri.parse(registerURL),
-      headers: {
-        // 'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: jsonEncode({
+      headers: {'Accept': 'application/json'},
+      body: {
         'name': name,
         'email': email,
         'password': password,
         'password_confirmation': password,
-      }),
+      },
     );
 
     switch (response.statusCode) {
@@ -70,7 +67,7 @@ Future<ApiResponse> register(String name, String email, String password) async {
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];
-        apiResponse.error = errors[errors.elementAt(0)][0];
+        apiResponse.error = errors[errors.keys.elementAt(0)][0];
         break;
       default:
         apiResponse.error = somethingWentWrong;
@@ -112,8 +109,9 @@ Future<ApiResponse> getUserDetail() async {
 
 Future<String> getToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token') ?? '';
-  return token;
+  // String? token = prefs.getString('token') ?? '';
+  // return token;
+  return prefs.getString('token') ?? '';
 }
 
 Future<int> getUserId() async {
